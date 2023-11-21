@@ -9,13 +9,13 @@ function fetchApiData(data) {
     let resultContainer = document.createElement("div");
     rootEl.appendChild(resultContainer);
 
-    let userNameEl = document.createElement("h1");
-    userNameEl.textContent = data.data.full_name;
-    userNameEl.classList.add("user-name");
-    resultContainer.appendChild(userNameEl);
+    // let userNameEl = document.createElement("h1");
+    // userNameEl.textContent = data.data.full_name;
+    // userNameEl.classList.add("user-name");
+    // resultContainer.appendChild(userNameEl);
 
-    let breakTag = document.createElement("br");
-    userNameEl.appendChild(breakTag);
+    // let breakTag = document.createElement("br");
+    // userNameEl.appendChild(breakTag);
 
     let profileLink1 = document.createElement("a");
     profileLink1.href = data.data.hd_profile_pic_url_info.url;
@@ -45,13 +45,30 @@ function fetchApiData(data) {
     profileLink3.classList.add("links-style");
     resultContainer.appendChild(profileLink3);
 
+    // let imageEl = document.createElement("img");
+    // imageEl.src = data.data.hd_profile_pic_url_info.url;
+    // imageEl.classList.add("image-size","d-flex","flex-row","justify-content-center");
+    // resultContainer.appendChild(imageEl);
+
+    let profileContainerEl = document.getElementById("profileContainer");
+
+    let profilePicEl = document.createElement("img");
+    profilePicEl.src = data.data.hd_profile_pic_url_info.url;
+    profilePicEl.classList.add("user-image");
+    profileContainerEl.appendChild(profilePicEl);
+
+    let userNameEl = document.createElement("h1");
+    userNameEl.textContent = "Hello !" + "    " + data.data.full_name;
+    userNameEl.classList.add("user-name");
+    profileContainerEl.appendChild(userNameEl);
+
 }
 
 function fetchingApi (username_or_id_or_url) {
 
 
         let key = '80e004b79fmsh93c81eaada8f74bp107d7bjsn1f7e1d3a6074';
-        let url = 'https://instagram-scraper-api2.p.rapidapi.com/v1/info?username_or_id_or_url=';
+        let url = 'https://instagram-scraper-api2.p.rapidapi.com/v1/info?&url_embed_safe=true&username_or_id_or_url=';
 
         fetch(url + username_or_id_or_url, {
             method: 'GET',

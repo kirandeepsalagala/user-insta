@@ -58,3 +58,13 @@
     padding-left: 25px;
     padding-top: 25px;
 }
+
+.image-size {
+    height: 250px;
+    width: 250px;
+    background-size: cover;
+}
+
+.content-container {
+    margin-top: 35px;
+}
