@@ -56,7 +56,6 @@
     font-size: 22px;
     color: #FF3062;
     padding-left: 25px;
-    padding-top: 25px;
 }
 
 .image-size {
@@ -67,4 +66,15 @@
 
 .content-container {
     margin-top: 35px;
+}
+
+.posts-count {
+    font-size: 22px;
+    padding-top: 45px;
+    padding-left: 25px;
+}
+
+.postname {
+    font-size: 17px;
+    padding-top: 2px;
 }
