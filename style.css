@@ -65,7 +65,7 @@
 }
 
 .content-container {
-    margin-top: 35px;
+    padding-top: 35px;
 }
 
 .posts-count {
@@ -77,4 +77,41 @@
 .postname {
     font-size: 17px;
     padding-top: 2px;
+}
+
+.story-thumbnail {
+    height: 70px;
+    width: 70px;
+    background-size: cover;
+    border-radius: 35px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.story-video {
+    height: 240px;
+    width: 320px;
+}
+
+.thumbnail {
+    height: 150px;
+    width: 150px;
+    background-size: cover;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.poster-overflow {
+    overflow-x: scroll;
+    width: 100vw;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: 0px;
+    /* margin-top: 15px */
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.poster-overflow::-webkit-scrollbar {
+    display: none;
 }

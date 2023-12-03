@@ -8,7 +8,8 @@ const loaderEl = document.getElementById("loader");
 
 function fetchApiData(data) {
 
-    let resultContainer = document.createElement("div");
+    const resultContainer = document.createElement("div");
+    resultContainer.setAttribute("id", "result-Container")
     rootEl.appendChild(resultContainer);
 
     let userNameEl = document.createElement("h1");
@@ -19,7 +20,7 @@ function fetchApiData(data) {
     const bio = data.data.biography;
 
     let array = bio.split('/[\n,\n\n]/',1);
-    console.log(array);
+    // console.log(array);
 
 
     let bioEl = document.createElement("h1");
@@ -27,9 +28,14 @@ function fetchApiData(data) {
     bioEl.classList.add("user-name");
     resultContainer.appendChild(bioEl);
 
+    // let storyImageUrl = document.createElement("img");
+    // storyImageUrl.src = data.data.items[0].thumbnail_url;
+    // storyImageUrl.classList.add("user-image");
+    // resultContainer.appendChild(storyImageUrl);
+
     let profileLink1 = document.createElement("a");
     profileLink1.href = data.data.hd_profile_pic_url_info.url;
-    profileLink1.textContent = "1. Click this link for hd quality image";
+    profileLink1.textContent = "Click this link for hd quality image";
     profileLink1.target = "_blank";
     profileLink1.classList.add("links-style")
     resultContainer.appendChild(profileLink1);
@@ -37,24 +43,6 @@ function fetchApiData(data) {
 
     breakTag = document.createElement("br");
     profileLink1.appendChild(breakTag);
-
-    let profileLink2 = document.createElement("a");
-    profileLink2.href = data.data.hd_profile_pic_versions[0].url;
-    profileLink2.textContent = "2. Click this link for medium quality image";
-    profileLink2.target = "_blank";
-    profileLink2.classList.add("links-style");
-    resultContainer.appendChild(profileLink2);
-
-    breakTag = document.createElement("br");
-    profileLink2.appendChild(breakTag);
-
-    let profileLink3 = document.createElement("a");
-    profileLink3.href = data.data.hd_profile_pic_versions[0].url;
-    profileLink3.textContent = "3. Click this link for low quality image";
-    profileLink3.target = "_blank";
-    profileLink3.classList.add("links-style");
-    resultContainer.appendChild(profileLink3);
-
 
     let profileContainerEl = document.getElementById("profileContainer");
 
@@ -74,15 +62,15 @@ function fetchApiData(data) {
 
     const number = data.data.follower_count;
     const formattedNumber = formatNumber(number);
-    console.log(formattedNumber);
+    // console.log(formattedNumber);
 
     const number2 = data.data.media_count;
     const postedNumber = postNumber(number2);
-    console.log(postedNumber);
+    // console.log(postedNumber);
 
     const number3 = data.data.following_count;
     const followingNumber = followingCount(number3);
-    console.log(followingNumber);
+    // console.log(followingNumber);
 
 
     let postsCountEl = document.createElement("h1");
@@ -117,7 +105,46 @@ function fetchApiData(data) {
 
     loaderEl.classList.add("d-none");
 
+    fetchStoryData(resultContainer);
 }
+
+function fetchStoryData(data){
+
+    let videoContainerEl = document.getElementById("videoContainer");
+
+    if (
+            data &&
+            data.data &&
+            data.data.items &&
+            Array.isArray(data.data.items) &&
+            data.data.items.length > 0
+          ) 
+          {
+            const thumbnails = data.data.items.map((item) => item.video_url);
+
+            const thumbnailsContainer = document.createElement("div");
+            videoContainerEl.appendChild(thumbnailsContainer);
+            if (thumbnailsContainer) {
+              thumbnails.forEach((thumbnailUrl) => {
+                const video = document.createElement('video');
+                video.classList.add("thumbnail");
+                video.controls = true;
+                video.src = thumbnailUrl;
+                // console.log(thumbnailUrl);
+                // Append the image to the 'thumbnailsContainer' in your UI
+                thumbnailsContainer.appendChild(video);
+              });
+            } 
+            else {
+              console.error('thumbnailsContainer element not found');
+            }
+          } 
+          // else {
+          //   console.error('Invalid data format received from the API or no items found');
+          // }
+}
+
+
 
 function formatNumber(number) {
     if (number >= 1000) {
@@ -158,8 +185,6 @@ function followingCount(number3) {
     return number3;
   }
 
-  // Example usage:
-
 
 function fetchingApi (username_or_id_or_url) {
 
@@ -179,9 +204,57 @@ function fetchingApi (username_or_id_or_url) {
             })
         
         .then(function(data){
-            console.log(data);
+            // console.log(data);
             fetchApiData(data);
-            }) 
+            }); 
+
+
+      const rapidAPIKey = '80e004b79fmsh93c81eaada8f74bp107d7bjsn1f7e1d3a6074';
+      const apiUrl = `https://instagram-scraper-api2.p.rapidapi.com/v1/posts?&url_embed_safe=true&username_or_id_or_url=`;
+
+      fetch(apiUrl + username_or_id_or_url,{
+        method: 'GET',
+        headers: {
+          'x-rapidapi-key': rapidAPIKey,
+          'x-rapidapi-host': 'instagram-scraper-api2.p.rapidapi.com',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Received data:', data); // Log the received data to inspect its structure
+          fetchStoryData(data)
+          // Check the structure of 'data' and adjust the code accordingly
+          // if (
+          //   data &&
+          //   data.data &&
+          //   data.data.items &&
+          //   Array.isArray(data.data.items) &&
+          //   data.data.items.length > 0
+          // ) 
+          // {
+          //   const thumbnails = data.data.items.map((item) => item.video_url);
+
+          //   const thumbnailsContainer = document.createElement("div");
+          //   rootEl.appendChild(thumbnailsContainer);
+          //   if (thumbnailsContainer) {
+          //     thumbnails.forEach((thumbnailUrl) => {
+          //       const video = document.createElement('video');
+          //       video.classList.add("thumbnail");
+          //       video.controls = true;
+          //       video.src = thumbnailUrl;
+          //       // console.log(thumbnailUrl);
+          //       // Append the image to the 'thumbnailsContainer' in your UI
+          //       thumbnailsContainer.appendChild(video);
+          //     });
+          //   } 
+          //   else {
+          //     console.error('thumbnailsContainer element not found');
+          //   }
+          // } else {
+          //   console.error('Invalid data format received from the API or no items found');
+          // }
+        })
+
         loaderEl.classList.add("d-none");
 }
 
@@ -196,3 +269,4 @@ function submitButton () {
         loaderEl.classList.remove("d-none");
     }
 }
+
